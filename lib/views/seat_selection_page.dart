@@ -77,16 +77,36 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                 Seat seat = selectedCoach?.seats[index] ?? Seat(number: 0);
                 return GestureDetector(
                   onTap: () {
-                    if (!seat.isLocked && selectedSeat == null) {
+                    if (!SeatManager.isSeatLocked(seat.number) &&
+                        selectedSeat == null) {
                       setState(() {
                         selectedSeat = seat;
-                        seat.isLocked = true;
+                        SeatManager.lockSeat(seat.number);
                       });
+                    } else if (SeatManager.isSeatLocked(seat.number)) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Seat Locked'),
+                          content: Text(
+                              'This seat is already booked. Please choose another seat.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
                     }
                   },
                   child: Container(
                     margin: EdgeInsets.all(8),
-                    color: seat.isLocked ? Colors.red : Colors.green,
+                    color: SeatManager.isSeatLocked(seat.number)
+                        ? Colors.red
+                        : Colors.green,
                     child: Center(
                       child: Text('Seat ${seat.number}'),
                     ),
@@ -100,7 +120,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (selectedSeat != null && selectedCoach != null) {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ConfirmBookingPage(
@@ -115,6 +135,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                   selectedSeat = null;
                   selectedCoach = null;
                 });
+                SeatManager.clearLockedSeats();
               }
             });
           } else {

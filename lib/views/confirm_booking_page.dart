@@ -17,31 +17,34 @@ class ConfirmBookingPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Confirm Booking'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Selected seat: ${selectedSeat.number}'),
-          Text('Coach: ${selectedCoach.number}'),
-          Text('Train Number: ${selectedTrain.number}'),
-          Text('Departure Time: ${selectedTrain.departureTime}'),
-          Text('Arrival Time: ${selectedTrain.arrivalTime}'),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BookingSummaryPage(
-                    selectedSeat: selectedSeat,
-                    selectedCoach: selectedCoach,
-                    selectedTrain: selectedTrain,
-                    totalAmount: 0.0,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Selected seat: ${selectedSeat.number}'),
+            Text('Coach: ${selectedCoach.number}'),
+            Text('Train Number: ${selectedTrain.number}'),
+            Text('Departure Time: ${selectedTrain.departureTime}'),
+            Text('Arrival Time: ${selectedTrain.arrivalTime}'),
+            ElevatedButton(
+              onPressed: () {
+                SeatManager.clearLockedSeats();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingSummaryPage(
+                      selectedSeat: selectedSeat,
+                      selectedCoach: selectedCoach,
+                      selectedTrain: selectedTrain,
+                      totalAmount: 0.0,
+                    ),
                   ),
-                ),
-              );
-            },
-            child: Text('Confirm Booking'),
-          )
-        ],
+                );
+              },
+              child: Text('Confirm Booking'),
+            )
+          ],
+        ),
       ),
     );
   }

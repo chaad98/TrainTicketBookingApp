@@ -18,3 +18,4 @@ export 'package:train_ticket_booking_app/views/payment_confirmation_page.dart';
 //Function packages
 export 'package:train_ticket_booking_app/functions/pdf.dart';
 export 'package:train_ticket_booking_app/functions/payment.dart';
+export 'package:train_ticket_booking_app/functions/seat_manager.dart';

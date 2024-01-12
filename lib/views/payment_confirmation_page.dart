@@ -21,23 +21,26 @@ class PaymentConfirmationPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Payment Confirmation'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Total Amount: \RM ${totalAmount.toStringAsFixed(2)}'),
-          ElevatedButton(
-            onPressed: () {
-              Payment.confirmPayment(
-                context,
-                () {
-                  onPaymentConfirmed();
-                  Payment.navigateToSummary(context);
-                },
-              );
-            },
-            child: Text('Confirm Payment'),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Total Amount: \RM ${totalAmount.toStringAsFixed(2)}'),
+            ElevatedButton(
+              onPressed: () {
+                SeatManager.lockSeat(selectedSeat.number);
+                Payment.confirmPayment(
+                  context,
+                  () {
+                    onPaymentConfirmed();
+                    Payment.navigateToSummary(context);
+                  },
+                );
+              },
+              child: Text('Confirm Payment'),
+            ),
+          ],
+        ),
       ),
     );
   }
